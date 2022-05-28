@@ -15,11 +15,6 @@ terraform {
   }
 }
 
-# Configure the DigitalOcean Provider
-provider "digitalocean" {
-  token = var.do_token
-}
-
 resource "digitalocean_kubernetes_cluster" "openarabic" {
   name   = "openarabic"
   region = "ams3"
