@@ -57,3 +57,23 @@ resource "helm_release" "prometheus-stack" {
   namespace        = "prometheus-stack"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 }
+
+resource "helm_release" "istio-base" {
+  name = "istio-base"
+
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  chart            = "base"
+  create_namespace = true
+  namespace        = "istio-system"
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+}
+
+resource "helm_release" "istio-istiod" {
+  name = "istio-istiod"
+
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  chart            = "istiod"
+  create_namespace = true
+  namespace        = "istio-system"
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+}
