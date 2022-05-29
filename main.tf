@@ -17,13 +17,21 @@ terraform {
 
 variable "do_token" {}
 
+data "digitalocean_kubernetes_cluster" "openarabic" {
+  name = "openarabic"
+}
+
 provider "digitalocean" {
   token = var.do_token
 }
 
 provider "helm" {
   kubernetes {
-    config_path = "~/.kube/config"
+    host  = data.digitalocean_kubernetes_cluster.openarabic.endpoint
+    token = data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].token
+    cluster_ca_certificate = base64decode(
+      data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].cluster_ca_certificate
+    )
   }
 }
 
