@@ -48,7 +48,4 @@ resource "helm_release" "prometheus-stack" {
   create_namespace = true
   namespace        = "prometheus-stack"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
-  set {
-    namespaceOverride = "prometheus-stack"
-  }
 }
