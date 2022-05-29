@@ -47,8 +47,8 @@ resource "helm_release" "prometheus-stack" {
   chart            = "prometheus-community/kube-prometheus-stack"
   create_namespace = true
   namespace        = "prometheus-stack"
-  depends_on       = [ digitalocean_kubernetes_cluster.openarabic]
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
   set {
-    namespaceOverride  = "prometheus-stack"
+    namespaceOverride = "prometheus-stack"
   }
 }
