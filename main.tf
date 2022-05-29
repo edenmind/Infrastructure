@@ -77,3 +77,13 @@ resource "helm_release" "istio-istiod" {
   namespace        = "istio-system"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 }
+
+resource "helm_release" "istio-ingress" {
+  name = "istio-ingress"
+
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  chart            = "istiod"
+  create_namespace = true
+  namespace        = "gateway"
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+}
