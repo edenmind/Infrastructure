@@ -15,13 +15,16 @@ terraform {
   }
 }
 
-# Set the variable value in *.tfvars file
-# or using -var="do_token=..." CLI option
 variable "do_token" {}
 
-# Configure the DigitalOcean Provider
 provider "digitalocean" {
   token = var.do_token
+}
+
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
 }
 
 resource "digitalocean_kubernetes_cluster" "openarabic" {
@@ -34,5 +37,18 @@ resource "digitalocean_kubernetes_cluster" "openarabic" {
     name       = "worker-pool"
     size       = "s-2vcpu-2gb"
     node_count = 3
+  }
+}
+
+resource "helm_release" "prometheus-stack" {
+  name = "prometheus-stack"
+
+  repository       = "https://prometheus-community.github.io/helm-charts"
+  chart            = "prometheus-community/kube-prometheus-stack"
+  create_namespace = true
+  namespace        = "prometheus-stack"
+  depends_on       = [ digitalocean_kubernetes_cluster.openarabic]
+  set {
+    namespaceOverride  = "prometheus-stack"
   }
 }
