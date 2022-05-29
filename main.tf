@@ -25,6 +25,14 @@ provider "digitalocean" {
   token = var.do_token
 }
 
+provider "kubernetes" {
+  host  = data.digitalocean_kubernetes_cluster.openarabic.endpoint
+  token = data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].token
+  cluster_ca_certificate = base64decode(
+    data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].cluster_ca_certificate
+  )
+}
+
 provider "helm" {
   kubernetes {
     host  = data.digitalocean_kubernetes_cluster.openarabic.endpoint
@@ -45,6 +53,15 @@ resource "digitalocean_kubernetes_cluster" "openarabic" {
     name       = "worker-pool"
     size       = "s-2vcpu-4gb"
     node_count = 2
+  }
+}
+
+resource "kubernetes_namespace" "gateway" {
+  metadata {
+    labels = {
+      istio-injection = "enabled"
+    }
+    name = "gateway"
   }
 }
 
