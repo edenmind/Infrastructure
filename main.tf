@@ -104,3 +104,22 @@ resource "helm_release" "istio-ingress" {
   namespace        = "gateway"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 }
+
+resource "helm_release" "flagger" {
+  name = "flagger"
+
+  repository       = "https://flagger.app"
+  chart            = "flagger"
+  create_namespace = true
+  namespace        = "istio-system"
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+
+  set {
+    name  = "meshProvider"
+    value = "istio"
+  }
+  set {
+    name  = "metricsServer"
+    value = "http://prometheus-stack-kube-prom-prometheus.prometheus-stack:9090/"
+  }
+}
