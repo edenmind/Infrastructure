@@ -138,6 +138,6 @@ resource "helm_release" "flagger" {
   }
   set {
     name  = "metricsServer"
-    value = "http://prometheus-stack-kube-prom-prometheus.prometheus-stack:9090/"
+    value = "http://prometheus.istio-system:9090"
   }
 }
