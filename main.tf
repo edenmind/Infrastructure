@@ -63,6 +63,19 @@ resource "kubernetes_namespace" "gateway" {
     }
     name = "gateway"
   }
+
+  depends_on = [digitalocean_kubernetes_cluster.openarabic]
+}
+
+resource "kubernetes_namespace" "openarabic" {
+  metadata {
+    labels = {
+      istio-injection = "enabled"
+    }
+    name = "openarabic"
+  }
+
+  depends_on = [digitalocean_kubernetes_cluster.openarabic]
 }
 
 resource "helm_release" "prometheus-stack" {
@@ -70,6 +83,7 @@ resource "helm_release" "prometheus-stack" {
 
   repository       = "https://prometheus-community.github.io/helm-charts"
   chart            = "kube-prometheus-stack"
+  version          = "35.5.1"
   create_namespace = true
   namespace        = "prometheus-stack"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
@@ -80,6 +94,7 @@ resource "helm_release" "istio-base" {
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "base"
+  version          = "1.14.0"
   create_namespace = true
   namespace        = "istio-system"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
@@ -90,6 +105,7 @@ resource "helm_release" "istio-istiod" {
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "istiod"
+  version          = "1.14.0"
   create_namespace = true
   namespace        = "istio-system"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
@@ -100,6 +116,7 @@ resource "helm_release" "istio-ingress" {
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "gateway"
+  version          = "1.14.0"
   create_namespace = true
   namespace        = "gateway"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
@@ -110,6 +127,7 @@ resource "helm_release" "flagger" {
 
   repository       = "https://flagger.app"
   chart            = "flagger"
+  version          = "1.21.0"
   create_namespace = true
   namespace        = "istio-system"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
