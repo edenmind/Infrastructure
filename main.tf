@@ -31,7 +31,8 @@ resource "digitalocean_kubernetes_cluster" "openarabic" {
 }
 
 data "digitalocean_kubernetes_cluster" "openarabic" {
-  name = "openarabic"
+  name       = "openarabic"
+  depends_on = [digitalocean_kubernetes_cluster.openarabic]
 }
 
 provider "digitalocean" {
