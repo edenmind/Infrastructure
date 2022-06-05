@@ -51,8 +51,8 @@ resource "digitalocean_kubernetes_cluster" "openarabic" {
 
   node_pool {
     name       = "worker-pool"
-    size       = "s-2vcpu-4gb"
-    node_count = 3
+    size       = "s-2vcpu-8gb"
+    node_count = 2
   }
 }
 
@@ -78,6 +78,17 @@ resource "kubernetes_namespace" "openarabic" {
   depends_on = [digitalocean_kubernetes_cluster.openarabic]
 }
 
+resource "helm_release" "metrics-server" {
+  name = "metrics-server"
+
+  repository       = "https://kubernetes-sigs.github.io/metrics-server/"
+  chart            = "metrics-server"
+  version          = "3.8.2"
+  create_namespace = true
+  namespace        = "metrics-server"
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+}
+
 resource "helm_release" "prometheus-stack" {
   name = "prometheus-stack"
 
@@ -87,6 +98,16 @@ resource "helm_release" "prometheus-stack" {
   create_namespace = true
   namespace        = "prometheus-stack"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+
+  set {
+    name  = "serviceMonitorNamespaceSelector"
+    value = {}
+  }
+
+  set {
+    name  = "serviceMonitorSelector"
+    value = {}
+  }
 }
 
 resource "helm_release" "istio-base" {
