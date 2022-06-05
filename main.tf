@@ -8,7 +8,6 @@ terraform {
 
   cloud {
     organization = "edenmind"
-
     workspaces {
       name = "openarabic"
     }
