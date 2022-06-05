@@ -108,7 +108,7 @@ resource "helm_release" "istio-istiod" {
   version          = "1.14.0"
   create_namespace = true
   namespace        = "istio-system"
-  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic, helm_release.istio-base]
 }
 
 resource "helm_release" "istio-ingress" {
@@ -117,9 +117,9 @@ resource "helm_release" "istio-ingress" {
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "gateway"
   version          = "1.14.0"
-  create_namespace = true
+  create_namespace = false
   namespace        = "gateway"
-  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic, helm_release.istio-istiod, kubernetes_namespace.gateway]
 }
 
 resource "helm_release" "flagger" {
@@ -128,9 +128,9 @@ resource "helm_release" "flagger" {
   repository       = "https://flagger.app"
   chart            = "flagger"
   version          = "1.21.0"
-  create_namespace = true
+  create_namespace = false
   namespace        = "istio-system"
-  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic, helm_release.istio-ingress]
 
   set {
     name  = "meshProvider"
@@ -138,6 +138,6 @@ resource "helm_release" "flagger" {
   }
   set {
     name  = "metricsServer"
-    value = "http://prometheus.istio-system:9090"
+    value = "http://prometheus-stack-kube-prom-prometheus.prometheus-stack:9090"
   }
 }
