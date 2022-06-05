@@ -96,18 +96,8 @@ resource "helm_release" "prometheus-stack" {
   chart            = "kube-prometheus-stack"
   version          = "35.5.1"
   create_namespace = true
-  namespace        = "prometheus-stack"
+  namespace        = "istio-system"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
-
-  set {
-    name  = "serviceMonitorNamespaceSelector"
-    value = ""
-  }
-
-  set {
-    name  = "serviceMonitorSelector"
-    value = ""
-  }
 }
 
 resource "helm_release" "istio-base" {
