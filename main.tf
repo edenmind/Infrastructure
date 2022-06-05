@@ -101,12 +101,12 @@ resource "helm_release" "prometheus-stack" {
 
   set {
     name  = "serviceMonitorNamespaceSelector"
-    value = {}
+    value = ""
   }
 
   set {
     name  = "serviceMonitorSelector"
-    value = {}
+    value = ""
   }
 }
 
