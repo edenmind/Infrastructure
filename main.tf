@@ -17,14 +17,26 @@ terraform {
 
 variable "do_token" {}
 
-data "digitalocean_kubernetes_cluster" "openarabic" {
-  name = "openarabic"
-}
-
 provider "digitalocean" {
   token = var.do_token
 }
 
+resource "digitalocean_kubernetes_cluster" "openarabic" {
+  name   = "openarabic"
+  region = "ams3"
+  # Grab the latest version: `doctl kubernetes options versions`
+  version = "1.22.8-do.1"
+
+  node_pool {
+    name       = "worker-pool"
+    size       = "s-2vcpu-8gb"
+    node_count = 2
+  }
+}
+
+data "digitalocean_kubernetes_cluster" "openarabic" {
+  name = "openarabic"
+}
 provider "kubernetes" {
   host  = data.digitalocean_kubernetes_cluster.openarabic.endpoint
   token = data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].token
@@ -40,19 +52,6 @@ provider "helm" {
     cluster_ca_certificate = base64decode(
       data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].cluster_ca_certificate
     )
-  }
-}
-
-resource "digitalocean_kubernetes_cluster" "openarabic" {
-  name   = "openarabic"
-  region = "ams3"
-  # Grab the latest version: `doctl kubernetes options versions`
-  version = "1.22.8-do.1"
-
-  node_pool {
-    name       = "worker-pool"
-    size       = "s-2vcpu-8gb"
-    node_count = 2
   }
 }
 
