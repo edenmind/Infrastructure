@@ -55,18 +55,6 @@ provider "helm" {
     )
   }
 }
-
-resource "kubernetes_namespace" "gateway" {
-  metadata {
-    labels = {
-      istio-injection = "enabled"
-    }
-    name = "gateway"
-  }
-
-  depends_on = [digitalocean_kubernetes_cluster.openarabic]
-}
-
 resource "kubernetes_namespace" "openarabic" {
   metadata {
     labels = {
@@ -96,7 +84,7 @@ resource "helm_release" "prometheus-stack" {
   chart            = "kube-prometheus-stack"
   version          = "35.5.1"
   create_namespace = true
-  namespace        = "prometheus"
+  namespace        = "istio-system"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 }
 
@@ -129,7 +117,7 @@ resource "helm_release" "istio-ingress" {
   chart            = "gateway"
   version          = "1.14.0"
   create_namespace = false
-  namespace        = "gateway"
+  namespace        = "istio-system"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic, helm_release.istio-istiod, kubernetes_namespace.gateway]
 }
 
@@ -149,6 +137,6 @@ resource "helm_release" "flagger" {
   }
   set {
     name  = "metricsServer"
-    value = "http://prometheus-stack-kube-prom-prometheus.prometheus:9090"
+    value = "http://prometheus-stack-kube-prom-prometheus.prometheus-stack:9090"
   }
 }
