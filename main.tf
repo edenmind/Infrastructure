@@ -58,7 +58,7 @@ provider "helm" {
 resource "kubernetes_namespace" "openarabic" {
   metadata {
     labels = {
-      istio-injection = "enabled"
+      "linkerd.io/inject" = "enabled"
     }
     name = "openarabic"
   }
@@ -75,68 +75,4 @@ resource "helm_release" "metrics-server" {
   create_namespace = true
   namespace        = "metrics-server"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
-}
-
-resource "helm_release" "prometheus-stack" {
-  name = "prometheus-stack"
-
-  repository       = "https://prometheus-community.github.io/helm-charts"
-  chart            = "kube-prometheus-stack"
-  version          = "35.5.1"
-  create_namespace = true
-  namespace        = "istio-system"
-  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
-}
-
-resource "helm_release" "istio-base" {
-  name = "istio-base"
-
-  repository       = "https://istio-release.storage.googleapis.com/charts"
-  chart            = "base"
-  version          = "1.14.0"
-  create_namespace = true
-  namespace        = "istio-system"
-  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
-}
-
-resource "helm_release" "istio-istiod" {
-  name = "istio-istiod"
-
-  repository       = "https://istio-release.storage.googleapis.com/charts"
-  chart            = "istiod"
-  version          = "1.14.0"
-  create_namespace = true
-  namespace        = "istio-system"
-  depends_on       = [digitalocean_kubernetes_cluster.openarabic, helm_release.istio-base]
-}
-
-resource "helm_release" "istio-ingress" {
-  name = "istio-ingress"
-
-  repository       = "https://istio-release.storage.googleapis.com/charts"
-  chart            = "gateway"
-  version          = "1.14.0"
-  create_namespace = false
-  namespace        = "istio-system"
-  depends_on       = [digitalocean_kubernetes_cluster.openarabic, helm_release.istio-istiod]
-}
-
-resource "helm_release" "flagger" {
-  name = "flagger"
-
-  repository       = "https://flagger.app"
-  chart            = "flagger"
-  version          = "1.21.0"
-  create_namespace = false
-  namespace        = "istio-system"
-  depends_on       = [digitalocean_kubernetes_cluster.openarabic, helm_release.istio-ingress]
-
-  set {
-    name  = "meshProvider"
-    value = "linkerd"
-  }
-  set {
-    name  = "metricsServer"
-    value = "http://prometheus.linkerd-viz:9090"
-  }
 }
