@@ -118,7 +118,7 @@ resource "helm_release" "istio-ingress" {
   version          = "1.14.0"
   create_namespace = false
   namespace        = "istio-system"
-  depends_on       = [digitalocean_kubernetes_cluster.openarabic, helm_release.istio-istiod, kubernetes_namespace.gateway]
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic, helm_release.istio-istiod]
 }
 
 resource "helm_release" "flagger" {
