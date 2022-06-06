@@ -30,7 +30,8 @@ resource "digitalocean_kubernetes_cluster" "openarabic" {
 }
 
 resource "digitalocean_container_registry" "repository" {
-  name                   = "repository"
+  name                   = "edenmind-oci-repository"
+  region                 = "ams3"
   subscription_tier_slug = "starter"
 }
 
