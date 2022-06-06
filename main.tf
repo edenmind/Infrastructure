@@ -29,6 +29,11 @@ resource "digitalocean_kubernetes_cluster" "openarabic" {
   }
 }
 
+resource "digitalocean_container_registry" "repository" {
+  name                   = "repository"
+  subscription_tier_slug = "starter"
+}
+
 data "digitalocean_kubernetes_cluster" "openarabic" {
   name       = "openarabic"
   depends_on = [digitalocean_kubernetes_cluster.openarabic]
