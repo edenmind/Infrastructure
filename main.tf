@@ -64,7 +64,7 @@ provider "helm" {
 resource "kubernetes_namespace" "openarabic" {
   metadata {
     labels = {
-      "linkerd.io/inject" = "enabled"
+      "istio-injection" = "enabled"
     }
     name = "openarabic"
   }
@@ -122,7 +122,7 @@ resource "helm_release" "loadtester" {
   chart            = "loadtester"
   version          = "0.22.0"
   create_namespace = true
-  namespace        = "loadtester"
+  namespace        = "openarabic"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 }
 
@@ -135,16 +135,6 @@ resource "helm_release" "flagger" {
   create_namespace = true
   namespace        = "istio-system"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
-
-  set {
-    name  = "prometheus.install"
-    value = true
-  }
-
-  set {
-    name  = "metricsServer"
-    value = "http://prometheus.istio-system:9090"
-  }
 
   set {
     name  = "prometheus.install"
