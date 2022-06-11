@@ -147,11 +147,6 @@ resource "helm_release" "flagger" {
   }
 
   set {
-    name  = "podMonitor.enabled"
-    value = true
-  }
-
-  set {
     name  = "prometheus.install"
     value = true
   }
