@@ -111,7 +111,7 @@ resource "helm_release" "istio-ingress" {
   chart            = "gateway"
   version          = "1.14.0"
   create_namespace = true
-  namespace        = "gateway"
+  namespace        = "openarabic"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 }
 
@@ -119,7 +119,7 @@ resource "helm_release" "load-tester" {
   name = "load-tester"
 
   repository       = "https://flagger.app"
-  chart            = "loadtester"
+  chart            = "load-tester"
   version          = "0.22.0"
   create_namespace = true
   namespace        = "load-tester"
@@ -138,7 +138,7 @@ resource "helm_release" "flagger" {
 
   set {
     name  = "prometheus.install"
-    value = "true"
+    value = true
   }
 
   set {
@@ -148,12 +148,12 @@ resource "helm_release" "flagger" {
 
   set {
     name  = "prometheus.install"
-    value = "true"
+    value = true
   }
 
   set {
     name  = "podMonitor.enabled"
-    value = "true"
+    value = true
   }
 
   set {
