@@ -81,3 +81,83 @@ resource "helm_release" "metrics-server" {
   namespace        = "metrics-server"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 }
+
+resource "helm_release" "istio-base" {
+  name = "istio-base"
+
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  chart            = "base"
+  version          = "1.14.0"
+  create_namespace = true
+  namespace        = "istio-system"
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+}
+
+resource "helm_release" "istio-istiod" {
+  name = "istio-istiod"
+
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  chart            = "istiod"
+  version          = "1.14.0"
+  create_namespace = true
+  namespace        = "istio-system"
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+}
+
+resource "helm_release" "istio-ingress" {
+  name = "istio-ingress"
+
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  chart            = "gateway"
+  version          = "1.14.0"
+  create_namespace = true
+  namespace        = "openarabic"
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+}
+
+resource "helm_release" "load-tester" {
+  name = "load-tester"
+
+  repository       = "https://flagger.app"
+  chart            = "load-tester"
+  version          = "0.22.0"
+  create_namespace = true
+  namespace        = "load-tester"
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+}
+
+resource "helm_release" "flagger" {
+  name = "flagger"
+
+  repository       = "https://flagger.app"
+  chart            = "flagger"
+  version          = "1.21.0"
+  create_namespace = true
+  namespace        = "istio-system"
+  depends_on       = [digitalocean_kubernetes_cluster.openarabic]
+
+  set {
+    name  = "prometheus.install"
+    value = "true"
+  }
+
+  set {
+    name  = "metricsServer"
+    value = "http://prometheus.istio-system:9090"
+  }
+
+  set {
+    name  = "prometheus.install"
+    value = "true"
+  }
+
+  set {
+    name  = "podMonitor.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "meshProvider"
+    value = "istio"
+  }
+}
