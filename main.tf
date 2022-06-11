@@ -111,7 +111,7 @@ resource "helm_release" "istio-ingress" {
   chart            = "gateway"
   version          = "1.14.0"
   create_namespace = true
-  namespace        = "openarabic"
+  namespace        = "gateway"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 }
 
@@ -119,7 +119,7 @@ resource "helm_release" "load-tester" {
   name = "load-tester"
 
   repository       = "https://flagger.app"
-  chart            = "load-tester"
+  chart            = "loadtester"
   version          = "0.22.0"
   create_namespace = true
   namespace        = "load-tester"
