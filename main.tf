@@ -71,6 +71,16 @@ resource "kubernetes_namespace" "openarabic" {
   depends_on = [digitalocean_kubernetes_cluster.openarabic]
 }
 
+resource "kubernetes_namespace" "gateway" {
+  metadata {
+    labels = {
+      "istio-injection" = "enabled"
+    }
+    name = "gateway"
+  }
+  depends_on = [digitalocean_kubernetes_cluster.openarabic]
+}
+
 resource "helm_release" "metrics-server" {
   name = "metrics-server"
 
@@ -111,9 +121,12 @@ resource "helm_release" "istio-ingress" {
   chart            = "gateway"
   version          = "1.14.0"
   create_namespace = true
-  namespace        = "openarabic"
+  namespace        = "gateway"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 }
+
+# TODO: Figure out how to install through TF
+# kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.14/samples/addons/prometheus.yaml
 
 resource "helm_release" "loadtester" {
   name = "loadtester"
@@ -137,10 +150,13 @@ resource "helm_release" "flagger" {
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 
   set {
-    name  = "prometheus.install"
-    value = true
+    name  = "metricsServer"
+    value = "http://prometheus.istio-system:9090"
   }
-
+  set {
+    name  = "namespace"
+    value = "openarabic"
+  }
   set {
     name  = "meshProvider"
     value = "istio"
