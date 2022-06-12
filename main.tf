@@ -125,7 +125,7 @@ resource "helm_release" "loadtester" {
   chart            = "loadtester"
   version          = "0.22.0"
   create_namespace = true
-  namespace        = "openarabic"
+  namespace        = "loadtester"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 }
 
