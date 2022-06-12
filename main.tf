@@ -71,16 +71,6 @@ resource "kubernetes_namespace" "openarabic" {
   depends_on = [digitalocean_kubernetes_cluster.openarabic]
 }
 
-resource "kubernetes_namespace" "gateway" {
-  metadata {
-    labels = {
-      "istio-injection" = "enabled"
-    }
-    name = "gateway"
-  }
-  depends_on = [digitalocean_kubernetes_cluster.openarabic]
-}
-
 resource "helm_release" "metrics-server" {
   name = "metrics-server"
 
@@ -121,7 +111,7 @@ resource "helm_release" "istio-ingress" {
   chart            = "gateway"
   version          = "1.14.0"
   create_namespace = true
-  namespace        = "gateway"
+  namespace        = "istio-system"
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 }
 
