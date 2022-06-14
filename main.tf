@@ -71,6 +71,16 @@ resource "kubernetes_namespace" "openarabic" {
   depends_on = [digitalocean_kubernetes_cluster.openarabic]
 }
 
+resource "kubernetes_namespace" "loadtester" {
+  metadata {
+    labels = {
+      "istio-injection" = "enabled"
+    }
+    name = "loadtester"
+  }
+  depends_on = [digitalocean_kubernetes_cluster.openarabic]
+}
+
 resource "helm_release" "metrics-server" {
   name = "metrics-server"
 
