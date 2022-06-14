@@ -24,7 +24,7 @@ resource "digitalocean_kubernetes_cluster" "openarabic" {
 
   node_pool {
     name       = "worker-pool"
-    size       = "s-2vcpu-4gb"
+    size       = "s-4vcpu-8gb"
     node_count = 2
   }
 }
