@@ -150,6 +150,22 @@ resource "helm_release" "flagger" {
   depends_on       = [digitalocean_kubernetes_cluster.openarabic]
 
   set {
+    name  = "clusterName"
+    value = "openarabic"
+  }
+  set {
+    name  = "slack.user"
+    value = "flagger"
+  }
+  set {
+    name  = "slack.channel"
+    value = "general"
+  }
+  set {
+    name  = "slack.url"
+    value = "https://hooks.slack.com/services/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"
+  }
+  set {
     name  = "metricsServer"
     value = "http://prometheus.istio-system:9090"
   }
