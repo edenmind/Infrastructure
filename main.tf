@@ -54,7 +54,7 @@ data "digitalocean_kubernetes_cluster" "openarabic" {
 
 
 provider "kubernetes" {
-  host  = data.digitalocean_kubernetes_cluster.openarabic.endpoint
+  host  = "https://77075ba0-95ba-4b48-af02-749d1566c548.k8s.ondigitalocean.com/"
   token = data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].token
   cluster_ca_certificate = base64decode(
     data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].cluster_ca_certificate
@@ -63,7 +63,7 @@ provider "kubernetes" {
 
 provider "helm" {
   kubernetes {
-    host  = data.digitalocean_kubernetes_cluster.openarabic.endpoint
+    host  = "https://77075ba0-95ba-4b48-af02-749d1566c548.k8s.ondigitalocean.com/"
     token = data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].token
     cluster_ca_certificate = base64decode(
       data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].cluster_ca_certificate
