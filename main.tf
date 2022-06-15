@@ -4,6 +4,14 @@ terraform {
       source  = "digitalocean/digitalocean"
       version = "2.20.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "2.11.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.5.1"
+    }
   }
 
   cloud {
@@ -15,6 +23,10 @@ terraform {
 }
 
 variable "do_token" {}
+
+provider "digitalocean" {
+  token = var.do_token
+}
 
 resource "digitalocean_kubernetes_cluster" "openarabic" {
   name   = "openarabic"
@@ -40,9 +52,6 @@ data "digitalocean_kubernetes_cluster" "openarabic" {
   depends_on = [digitalocean_kubernetes_cluster.openarabic]
 }
 
-provider "digitalocean" {
-  token = var.do_token
-}
 
 provider "kubernetes" {
   host  = data.digitalocean_kubernetes_cluster.openarabic.endpoint
