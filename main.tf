@@ -2,7 +2,7 @@ terraform {
   required_providers {
     digitalocean = {
       source  = "digitalocean/digitalocean"
-      version = "~> 2.0"
+      version = "2.20.0"
     }
   }
 
@@ -24,8 +24,8 @@ resource "digitalocean_kubernetes_cluster" "openarabic" {
 
   node_pool {
     name       = "worker-pool"
-    size       = "s-2vcpu-4gb"
-    node_count = 2
+    size       = "s-4vcpu-8gb"
+    node_count = 3
   }
 }
 
