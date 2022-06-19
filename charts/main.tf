@@ -4,8 +4,7 @@ resource "helm_release" "metrics-server" {
   repository       = "https://kubernetes-sigs.github.io/metrics-server/"
   chart            = "metrics-server"
   version          = "3.8.2"
-  create_namespace = true
-  namespace        = "metrics-server"
+  namespace        = "kube-system"
 }
 
 resource "helm_release" "istio-base" {
@@ -49,33 +48,6 @@ resource "helm_release" "loadtester" {
   version          = "0.22.0"
   create_namespace = true
   namespace        = "loadtester"
-}
-
-resource "helm_release" "grafana" {
-  name = "grafana"
-
-  repository       = "https://grafana.github.io/helm-charts"
-  chart            = "loki-stack"
-  version          = "2.6.5"
-  create_namespace = true
-  namespace        = "grafana"
-
-  set {
-    name  = "grafana.enabled"
-    value = true
-  }
-
-  set {
-    name  = "grafana.persistence.enabled"
-    value = true
-  }
-
-    set {
-    name  = "grafana.persistence.size"
-    value = "5Gi"
-  }
-
-
 }
 
 resource "helm_release" "flagger" {
