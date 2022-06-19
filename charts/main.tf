@@ -1,10 +1,10 @@
 resource "helm_release" "metrics-server" {
   name = "metrics-server"
 
-  repository       = "https://kubernetes-sigs.github.io/metrics-server/"
-  chart            = "metrics-server"
-  version          = "3.8.2"
-  namespace        = "kube-system"
+  repository = "https://kubernetes-sigs.github.io/metrics-server/"
+  chart      = "metrics-server"
+  version    = "3.8.2"
+  namespace  = "kube-system"
 }
 
 resource "helm_release" "istio-base" {
@@ -39,6 +39,31 @@ resource "helm_release" "istio-ingress" {
 
 # TODO: Figure out how to install through TF
 # kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.14/samples/addons/prometheus.yaml
+
+resource "helm_release" "grafana" {
+  name = "grafana"
+
+  repository       = "https://grafana.github.io/helm-charts"
+  chart            = "loki-stack"
+  version          = "2.6.5"
+  create_namespace = true
+  namespace        = "grafana"
+
+  set {
+    name  = "grafana.enabled"
+    value = true
+  }
+
+  set {
+    name  = "grafana.persistence.enabled"
+    value = true
+  }
+
+  set {
+    name  = "grafana.persistence.size"
+    value = "5Gi"
+  }
+}
 
 resource "helm_release" "loadtester" {
   name = "loadtester"
