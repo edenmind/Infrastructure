@@ -10,10 +10,11 @@ resource "helm_release" "metrics-server" {
 resource "helm_release" "mongo-operator" {
   name = "mongo-operator"
 
-  repository = "https://mongodb.github.io/helm-charts"
-  chart      = "community-operator"
-  version    = "0.7.4"
-  namespace  = "mongodb-database"
+  repository       = "https://mongodb.github.io/helm-charts"
+  chart            = "community-operator"
+  version          = "0.7.4"
+  create_namespace = true
+  namespace        = "mongodb-database"
 }
 
 resource "helm_release" "istio-base" {
