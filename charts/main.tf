@@ -14,7 +14,7 @@ resource "helm_release" "mongo-operator" {
   chart            = "community-operator"
   version          = "0.7.4"
   create_namespace = true
-  namespace        = "mongodb-database"
+  namespace        = "mongodb"
 }
 
 resource "helm_release" "istio-base" {
