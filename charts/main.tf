@@ -15,11 +15,6 @@ resource "helm_release" "mongo-operator" {
   version          = "0.7.4"
   create_namespace = true
   namespace        = "mongodb-database"
-
-  set {
-    name  = "operator.watchNamespace"
-    value = "openarabic"
-  }
 }
 
 resource "helm_release" "istio-base" {
