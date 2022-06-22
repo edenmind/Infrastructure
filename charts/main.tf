@@ -86,6 +86,7 @@ resource "helm_release" "loadtester" {
 }
 
 resource "helm_release" "flagger" {
+
   name = "flagger"
 
   repository       = "https://flagger.app"
@@ -108,7 +109,7 @@ resource "helm_release" "flagger" {
   }
   set {
     name  = "slack.url"
-    value = "https://hooks.slack.com/services/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"
+    value = var.slack_webhook
   }
   set {
     name  = "metricsServer"
