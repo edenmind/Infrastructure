@@ -19,6 +19,7 @@ terraform {
 }
 
 variable "do_token" {}
+variable "slack_webhook" {}
 
 provider "digitalocean" {
   token = var.do_token
@@ -83,6 +84,8 @@ resource "digitalocean_container_registry" "repository" {
   subscription_tier_slug = "basic"
 }
 
+
 module "helm_charts" {
-  source = "./charts"
+  source        = "./charts"
+  slack_webhook = var.slack_webhook
 }
