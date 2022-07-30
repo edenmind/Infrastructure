@@ -22,7 +22,7 @@ resource "helm_release" "istio-base" {
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "base"
-  version          = "1.14.1"
+  version          = "1.14.2"
   create_namespace = true
   namespace        = "istio-system"
 }
@@ -32,7 +32,7 @@ resource "helm_release" "istio-istiod" {
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "istiod"
-  version          = "1.14.1"
+  version          = "1.14.2"
   create_namespace = true
   namespace        = "istio-system"
 }
@@ -42,7 +42,7 @@ resource "helm_release" "istio-ingress" {
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "gateway"
-  version          = "1.14.1"
+  version          = "1.14.2"
   create_namespace = true
   namespace        = "istio-system"
 }
@@ -91,7 +91,7 @@ resource "helm_release" "flagger" {
 
   repository       = "https://flagger.app"
   chart            = "flagger"
-  version          = "1.21.0"
+  version          = "1.22.0"
   create_namespace = true
   namespace        = "istio-system"
 
