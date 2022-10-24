@@ -41,29 +41,26 @@ resource "digitalocean_kubernetes_cluster" "openarabic" {
   }
 }
 
-# data "digitalocean_kubernetes_cluster" "openarabic" {
-#   name = "openarabic"
-# }
+provider "kubernetes" {
+  host  = digitalocean_kubernetes_cluster.openarabic.endpoint
+  token = digitalocean_kubernetes_cluster.openarabic.kube_config[0].token
+  cluster_ca_certificate = base64decode(
+    digitalocean_kubernetes_cluster.openarabic.kube_config[0].cluster_ca_certificate
+  )
+}
 
-# provider "kubernetes" {
-#   host  = data.digitalocean_kubernetes_cluster.openarabic.endpoint
-#   token = data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].token
-#   cluster_ca_certificate = base64decode(
-#     data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].cluster_ca_certificate
-#   )
-# }
-
-# provider "helm" {
-#   kubernetes {
-#     host  = data.digitalocean_kubernetes_cluster.openarabic.endpoint
-#     token = data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].token
-#     cluster_ca_certificate = base64decode(
-#       data.digitalocean_kubernetes_cluster.openarabic.kube_config[0].cluster_ca_certificate
-#     )
-#   }
-# }
+provider "helm" {
+  kubernetes {
+    host  = digitalocean_kubernetes_cluster.openarabic.endpoint
+    token = digitalocean_kubernetes_cluster.openarabic.kube_config[0].token
+    cluster_ca_certificate = base64decode(
+      digitalocean_kubernetes_cluster.openarabic.kube_config[0].cluster_ca_certificate
+    )
+  }
+}
 
 resource "kubernetes_namespace" "openarabic" {
+  depends_on = [digitalocean_kubernetes_cluster.openarabic]
   metadata {
     labels = {
       "istio-injection" = "enabled"
@@ -73,6 +70,7 @@ resource "kubernetes_namespace" "openarabic" {
 }
 
 resource "kubernetes_namespace" "loadtester" {
+  depends_on = [digitalocean_kubernetes_cluster.openarabic]
   metadata {
     labels = {
       "istio-injection" = "enabled"
@@ -88,7 +86,7 @@ resource "digitalocean_container_registry" "repository" {
 }
 
 
-# module "helm_charts" {
-#   source        = "./charts"
-#   slack_webhook = var.slack_webhook
-# }
+module "helm_charts" {
+  source        = "./charts"
+  slack_webhook = var.slack_webhook
+}
