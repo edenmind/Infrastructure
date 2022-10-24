@@ -7,22 +7,12 @@ resource "helm_release" "metrics-server" {
   namespace  = "kube-system"
 }
 
-resource "helm_release" "mongo-operator" {
-  name = "mongo-operator"
-
-  repository       = "https://mongodb.github.io/helm-charts"
-  chart            = "community-operator"
-  version          = "0.7.4"
-  create_namespace = true
-  namespace        = "mongodb"
-}
-
 resource "helm_release" "istio-base" {
   name = "istio-base"
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "base"
-  version          = "1.14.2"
+  version          = "1.15.2"
   create_namespace = true
   namespace        = "istio-system"
 }
@@ -32,7 +22,7 @@ resource "helm_release" "istio-istiod" {
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "istiod"
-  version          = "1.14.2"
+  version          = "1.15.2"
   create_namespace = true
   namespace        = "istio-system"
 }
@@ -42,7 +32,7 @@ resource "helm_release" "istio-ingress" {
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "gateway"
-  version          = "1.14.2"
+  version          = "1.15.2"
   create_namespace = true
   namespace        = "istio-system"
 }
@@ -55,7 +45,7 @@ resource "helm_release" "grafana" {
 
   repository       = "https://grafana.github.io/helm-charts"
   chart            = "loki-stack"
-  version          = "2.6.5"
+  version          = "2.8.3"
   create_namespace = true
   namespace        = "grafana"
 
@@ -80,7 +70,7 @@ resource "helm_release" "loadtester" {
 
   repository       = "https://flagger.app"
   chart            = "loadtester"
-  version          = "0.22.0"
+  version          = "0.26.0"
   create_namespace = true
   namespace        = "loadtester"
 }
@@ -91,7 +81,7 @@ resource "helm_release" "flagger" {
 
   repository       = "https://flagger.app"
   chart            = "flagger"
-  version          = "1.22.0"
+  version          = "1.24.0"
   create_namespace = true
   namespace        = "istio-system"
 
