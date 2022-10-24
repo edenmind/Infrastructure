@@ -18,8 +18,18 @@ Some commands to get you started:
 
 `doctl compute size list`
 
+### Container Registry
+
+After creating the cluster, it needs to be connected to the container registry. This is can be done from the web interface.
+
 ## Terraform
 
 ### Update providers
 
 `terraform init -upgrade`
+
+### Destroy
+
+Make sure to not just delete the resources, because the there will be a mismatch with the state.
+
+`terraform destroy`
