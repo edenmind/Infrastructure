@@ -80,11 +80,10 @@ resource "kubernetes_namespace" "loadtester" {
 }
 
 resource "digitalocean_container_registry" "repository" {
-  name                   = "openarabiccr"
+  name                   = "openarabic"
   region                 = "ams3"
   subscription_tier_slug = "basic"
 }
-
 
 module "helm_charts" {
   source        = "./charts"
