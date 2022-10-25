@@ -24,6 +24,22 @@ variable "slack_webhook" {}
 provider "digitalocean" {
   token = var.do_token
 }
+
+resource "digitalocean_container_registry" "repository" {
+  name                   = "openarabic"
+  region                 = "ams3"
+  subscription_tier_slug = "basic"
+}
+
+resource "digitalocean_database_cluster" "mongodb-example" {
+  name       = "memorizer"
+  engine     = "mongodb"
+  version    = "5"
+  size       = "db-s-1vcpu-1gb"
+  region     = "ams3"
+  node_count = 1
+}
+
 resource "digitalocean_kubernetes_cluster" "openarabic" {
   name          = "openarabic"
   region        = "ams3"
@@ -77,12 +93,6 @@ resource "kubernetes_namespace" "loadtester" {
     }
     name = "loadtester"
   }
-}
-
-resource "digitalocean_container_registry" "repository" {
-  name                   = "openarabic"
-  region                 = "ams3"
-  subscription_tier_slug = "basic"
 }
 
 module "helm_charts" {
