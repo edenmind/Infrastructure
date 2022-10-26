@@ -33,3 +33,11 @@ After creating the cluster, it needs to be connected to the container registry. 
 Make sure to not just delete the resources, because the there will be a mismatch with the state.
 
 `terraform destroy`
+
+### Kubernetes
+
+Expose the Grafana dashboard: `kubectl port-forward svc/grafana 3000:80 -n grafana`
+
+Apply Istio Prometheus manifests: `kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.15/samples/addons/prometheus.yaml`
+
+Make sure to use the correct version of Istio.
