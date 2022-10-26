@@ -63,6 +63,11 @@ resource "helm_release" "grafana" {
     name  = "grafana.persistence.size"
     value = "5Gi"
   }
+
+  set {
+    name  = "promtail.config.clients.url"
+    value = "http://grafana-loki:3100/loki/api/v1/push"
+  }
 }
 
 resource "helm_release" "loadtester" {
