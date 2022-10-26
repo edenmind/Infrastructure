@@ -66,7 +66,7 @@ resource "helm_release" "grafana" {
 
   set {
     name  = "promtail.config.clients.url"
-    value = "http://grafana-loki:3100/loki/api/v1/push"
+    value = "{http://grafana-loki:3100/loki/api/v1/push}"
   }
 }
 
