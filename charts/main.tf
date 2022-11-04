@@ -1,4 +1,4 @@
-resource "helm_release" "metrics-server" {
+resource "helm_release" "metrics-server" { # helm search repo metrics-server
   name = "metrics-server"
 
   repository = "https://kubernetes-sigs.github.io/metrics-server/"
@@ -7,7 +7,7 @@ resource "helm_release" "metrics-server" {
   namespace  = "kube-system"
 }
 
-resource "helm_release" "istio-base" {
+resource "helm_release" "istio-base" { # helm search repo istio-base 
   name = "istio-base"
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
@@ -40,7 +40,7 @@ resource "helm_release" "istio-ingress" {
 # TODO: Figure out how to install through TF
 # kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.14/samples/addons/prometheus.yaml
 
-resource "helm_release" "grafana" {
+resource "helm_release" "grafana" { # helm search repo loki-stack
   name = "grafana"
 
   repository       = "https://grafana.github.io/helm-charts"
@@ -70,7 +70,7 @@ resource "helm_release" "grafana" {
   }
 }
 
-resource "helm_release" "loadtester" {
+resource "helm_release" "loadtester" { # helm search repo loadtester
   name = "loadtester"
 
   repository       = "https://flagger.app"
@@ -80,13 +80,13 @@ resource "helm_release" "loadtester" {
   namespace        = "loadtester"
 }
 
-resource "helm_release" "flagger" {
+resource "helm_release" "flagger" { # helm search repo flagger
 
   name = "flagger"
 
   repository       = "https://flagger.app"
   chart            = "flagger"
-  version          = "1.24.0"
+  version          = "1.24.1"
   create_namespace = true
   namespace        = "istio-system"
 
