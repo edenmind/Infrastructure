@@ -1,7 +1,7 @@
 resource "helm_release" "metrics-server" { # helm search repo metrics-server
   name = "metrics-server"
 
-  repository = "https://kubernetes-sigs.github.io/metrics-server/"
+  repository = "https://kubernetes-sigs.github.io/metrics-server/" # helm search repo metrics-server
   chart      = "metrics-server"
   version    = "3.8.2"
   namespace  = "kube-system"
@@ -75,7 +75,7 @@ resource "helm_release" "loadtester" { # helm search repo loadtester
 
   repository       = "https://flagger.app"
   chart            = "loadtester"
-  version          = "0.26.0"
+  version          = "0.27.0"
   create_namespace = true
   namespace        = "loadtester"
 }
@@ -86,7 +86,7 @@ resource "helm_release" "flagger" { # helm search repo flagger
 
   repository       = "https://flagger.app"
   chart            = "flagger"
-  version          = "1.25.0"
+  version          = "1.26.0"
   create_namespace = true
   namespace        = "istio-system"
 
