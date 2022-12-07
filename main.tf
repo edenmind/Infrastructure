@@ -20,9 +20,14 @@ terraform {
 
 variable "do_token" {}
 variable "slack_webhook" {}
+variable "access_id" {}
+variable "secret_key" {}
 
 provider "digitalocean" {
   token = var.do_token
+
+  spaces_access_id  = var.access_id
+  spaces_secret_key = var.secret_key
 }
 
 resource "digitalocean_container_registry" "repository" {
@@ -44,6 +49,8 @@ resource "digitalocean_database_cluster" "mongodb-example" {
 resource "digitalocean_spaces_bucket" "openarabic" {
   name   = "openarabic"
   region = "ams3"
+
+  acl = "public-read"
 }
 
 resource "digitalocean_kubernetes_cluster" "openarabic" {
