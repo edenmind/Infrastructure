@@ -43,7 +43,7 @@ resource "digitalocean_database_cluster" "mongodb-example" {
 // create degitial ocean storage bucket
 resource "digitalocean_spaces_bucket" "openarabic" {
   name   = "openarabic"
-  region = "ams3"  
+  region = "ams3"
 }
 
 resource "digitalocean_kubernetes_cluster" "openarabic" {
