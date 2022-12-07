@@ -40,18 +40,24 @@ resource "digitalocean_database_cluster" "mongodb-example" {
   node_count = 1
 }
 
+// create degitial ocean storage bucket
+resource "digitalocean_spaces_bucket" "openarabic" {
+  name   = "openarabic"
+  region = "ams3"  
+}
+
 resource "digitalocean_kubernetes_cluster" "openarabic" {
   name          = "openarabic"
   region        = "ams3"
   auto_upgrade  = true
   surge_upgrade = true
-  version       = "1.25.4-do.0" # Grab the latest version: `doctl kubernetes options versions`
+  version       = "1.24.8-do.0" # Grab the latest version: `doctl kubernetes options versions`
 
   node_pool {
     name       = "worker-pool"
     size       = "s-4vcpu-8gb"
     node_count = 1
-    auto_scale = false
+    auto_scale = true
     min_nodes  = 1
     max_nodes  = 2
   }
