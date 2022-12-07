@@ -58,7 +58,7 @@ resource "digitalocean_kubernetes_cluster" "openarabic" {
   region        = "ams3"
   auto_upgrade  = true
   surge_upgrade = true
-  version       = "1.24.8-do.0" # Grab the latest version: `doctl kubernetes options versions`
+  version       = "1.25.4-do.0" # Grab the latest version: `doctl kubernetes options versions`
 
   node_pool {
     name       = "worker-pool"
