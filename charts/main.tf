@@ -3,7 +3,7 @@ resource "helm_release" "metrics-server" { # helm search repo metrics-server
 
   repository = "https://kubernetes-sigs.github.io/metrics-server/" # helm search repo metrics-server
   chart      = "metrics-server"
-  version    = "3.8.2"
+  version    = "3.8.3"
   namespace  = "kube-system"
 }
 
@@ -12,7 +12,7 @@ resource "helm_release" "istio-base" { # helm search repo istio-base
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "base"
-  version          = "1.16.0"
+  version          = "1.16.1"
   create_namespace = true
   namespace        = "istio-system"
 }
@@ -22,7 +22,7 @@ resource "helm_release" "istio-istiod" {
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "istiod"
-  version          = "1.16.0"
+  version          = "1.16.1"
   create_namespace = true
   namespace        = "istio-system"
 }
@@ -32,7 +32,7 @@ resource "helm_release" "istio-ingress" {
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "gateway"
-  version          = "1.16.0"
+  version          = "1.16.1"
   create_namespace = true
   namespace        = "istio-system"
 }
@@ -45,7 +45,7 @@ resource "helm_release" "grafana" { # helm search repo loki-stack
 
   repository       = "https://grafana.github.io/helm-charts"
   chart            = "loki-stack"
-  version          = "2.8.7"
+  version          = "2.8.8"
   create_namespace = true
   namespace        = "grafana"
 
@@ -75,7 +75,7 @@ resource "helm_release" "loadtester" { # helm search repo loadtester
 
   repository       = "https://flagger.app"
   chart            = "loadtester"
-  version          = "0.27.0"
+  version          = "0.28.0"
   create_namespace = true
   namespace        = "loadtester"
 }
@@ -86,7 +86,7 @@ resource "helm_release" "flagger" { # helm search repo flagger
 
   repository       = "https://flagger.app"
   chart            = "flagger"
-  version          = "1.26.0"
+  version          = "1.27.0"
   create_namespace = true
   namespace        = "istio-system"
 
