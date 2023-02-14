@@ -38,6 +38,6 @@ Make sure to not just delete the resources, because the there will be a mismatch
 
 Expose the Grafana dashboard: `kubectl port-forward svc/grafana 3000:80 -n grafana`
 
-Apply Istio Prometheus manifests: `kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.15/samples/addons/prometheus.yaml`
+Apply Istio Prometheus manifests: `kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/addons/prometheus.yaml`
 
 Make sure to use the correct version of Istio.
