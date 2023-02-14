@@ -45,7 +45,7 @@ resource "helm_release" "grafana" { # helm search repo loki-stack
 
   repository       = "https://grafana.github.io/helm-charts"
   chart            = "loki-stack"
-  version          = "2.9.9"
+  version          = "2.8.7"
   create_namespace = true
   namespace        = "grafana"
 
