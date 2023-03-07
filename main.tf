@@ -63,7 +63,7 @@ resource "digitalocean_kubernetes_cluster" "openarabic" {
   node_pool {
     name       = "worker-pool"
     size       = "s-4vcpu-8gb"
-    node_count = 2
+    node_count = 1
     auto_scale = true
     min_nodes  = 1
     max_nodes  = 2
