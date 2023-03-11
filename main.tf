@@ -39,7 +39,7 @@ resource "digitalocean_container_registry" "repository" {
 resource "digitalocean_database_cluster" "mongodb-example" {
   name       = "memorizer"
   engine     = "mongodb"
-  version    = "5"
+  version    = "6"
   size       = "db-s-1vcpu-1gb"
   region     = "ams3"
   node_count = 1
