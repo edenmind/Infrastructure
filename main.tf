@@ -104,7 +104,7 @@ provider "flux" {
     url = "https://github.com/edenmind/GitOps.git"
     http = {
       password = var.git_ops_token
-      username = "git"
+      username = "edenmind"
     }
   }
 }
