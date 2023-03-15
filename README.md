@@ -1,4 +1,4 @@
-# Infrastrusture
+# Infrastructure
 
 This is the infrastructure for the project. It is a collection of Terraform modules that can be used to deploy the OpenArabic platform to DigitalOcean.
 
@@ -38,6 +38,6 @@ Make sure to not just delete the resources, because the there will be a mismatch
 
 Expose the Grafana dashboard: `kubectl port-forward svc/grafana 3000:80 -n grafana`
 
-Apply Istio Prometheus manifests: `kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.16/samples/addons/prometheus.yaml`
+Apply Istio Prometheus manifests: `kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/prometheus.yaml`
 
 Make sure to use the correct version of Istio.

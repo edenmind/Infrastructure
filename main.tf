@@ -9,6 +9,9 @@ terraform {
     helm = {
       source = "hashicorp/helm"
     }
+    flux = {
+      source = "fluxcd/flux"
+    }
   }
   cloud {
     organization = "edenmind"
@@ -22,6 +25,7 @@ variable "do_token" {}
 variable "slack_webhook" {}
 variable "access_id" {}
 variable "secret_key" {}
+variable "git_ops_token" {}
 
 provider "digitalocean" {
   token = var.do_token
@@ -86,6 +90,27 @@ provider "helm" {
       digitalocean_kubernetes_cluster.openarabic.kube_config[0].cluster_ca_certificate
     )
   }
+}
+
+provider "flux" {
+  kubernetes = {
+    host  = digitalocean_kubernetes_cluster.openarabic.endpoint
+    token = digitalocean_kubernetes_cluster.openarabic.kube_config[0].token
+    cluster_ca_certificate = base64decode(
+      digitalocean_kubernetes_cluster.openarabic.kube_config[0].cluster_ca_certificate
+    )
+  }
+  git = {
+    url = "https://github.com/edenmind/GitOps.git"
+    http = {
+      password = var.git_ops_token
+      username = "git"
+    }
+  }
+}
+
+resource "flux_bootstrap_git" "openarabic" {
+  path = "clusters/openarabic"
 }
 
 resource "kubernetes_namespace" "openarabic" {
