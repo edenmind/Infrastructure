@@ -3,7 +3,7 @@ resource "helm_release" "metrics-server" { # helm search repo metrics-server
 
   repository = "https://kubernetes-sigs.github.io/metrics-server/" # helm search repo metrics-server
   chart      = "metrics-server"
-  version    = "3.8.4"
+  version    = "3.9.0"
   namespace  = "kube-system"
 }
 
@@ -12,7 +12,7 @@ resource "helm_release" "istio-base" { # helm search repo istio-base
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "base"
-  version          = "1.17.1"
+  version          = "1.17.2"
   create_namespace = true
   namespace        = "istio-system"
 }
@@ -22,7 +22,7 @@ resource "helm_release" "istio-istiod" {
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "istiod"
-  version          = "1.17.1"
+  version          = "1.17.2"
   create_namespace = true
   namespace        = "istio-system"
 }
@@ -32,7 +32,7 @@ resource "helm_release" "istio-ingress" {
 
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "gateway"
-  version          = "1.17.1"
+  version          = "1.17.2"
   create_namespace = true
   namespace        = "istio-system"
 }
