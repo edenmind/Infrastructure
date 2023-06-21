@@ -60,9 +60,9 @@ resource "digitalocean_spaces_bucket" "openarabic" {
 resource "digitalocean_kubernetes_cluster" "openarabic" {
   name          = "openarabic"
   region        = "ams3"
-  auto_upgrade  = true
-  surge_upgrade = true
-  version       = "1.26.3-do.0" # Grab the latest version: `doctl kubernetes options versions`
+  auto_upgrade  = false
+  surge_upgrade = false
+  version       = "1.27.2-do.0" # Grab the latest version: `doctl kubernetes options versions`
 
   node_pool {
     name       = "worker-pool"
